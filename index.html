@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html ng-app="boxApp">
+<head>
+  <title>Shop For Boxes</title>
+  <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700|Droid+Serif:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css
+">
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+</head>
+<body ng-controller="boxCtrl">
+  <header class="group">
+    <div class="container">
+      <a class="logo" href="#">
+        <img src="https://raw.github.com/lovehasnologic/tsl/master/lesson-07/in-class/assets/img/logo.png">
+        Box World
+      </a>
+      <nav>
+        <ul>
+          <li><a href="#">Regular Boxes</a></li>
+          <li><a href="#">Fancy Boxes</a></li>
+          <li><a href="#">Big Boxes</a></li>
+          <li><a href="#">Boxy Boxes</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <div class="container group">
+    <section class="inventory">
+      <ul>
+        <li ng-repeat="box in boxes">
+          <img ng-src="{{ box.image }}" alt="">
+          <h2>{{ box.title }}</h2>
+          <a href="#" class="btn" ng-click="addToCart($event, box)">Buy Now for {{ box.price | currency }}</a>
+        </li>
+      </ul>
+    </section>
+  
+    <aside class="cart">
+      <h2>Shopping Cart</h2>
+      <!-- Take note of the "track by $index" statement. It's used here because in Angular, if an array has duplicate values and the ng-repeat directive is used to cycle through the array, an errors occurs. Why? Because in Angular this is an instance of a duplicate key. Duplicate keys are banned because AngularJS uses keys to associate DOM nodes with items. To solve this error, make sure the item has a unique identity, or use the "track by $index" syntax.-->
+      <ul ng-repeat="item in shoppingCart track by $index ">
+        <li>
+          {{item.title }} ({{item.quantity}})...{{item.quantity * item.price | currency}}
+          <a href="#" ng-click="deleteItem($index, item.price)">[-]</a>
+          <a href="#" ng-click="addToCart($event, item)">[+]</a>
+        </li>
+      </ul>
+      <div ng-show="shoppingCart.length"><hr/>
+        Shipping Cost: {{shippingCost | currency}}
+      <br>
+        Product Cost: {{totalCost | currency}}
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <div class="container">
+      &copy; 2013 Lorem Ipsum, Inc. No rights reserved.
+    </div>
+  </footer>
+
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script>
+  <script type="text/javascript" src="/js/main.js"></script>
+</body>
+</html>
